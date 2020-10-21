@@ -1,0 +1,24 @@
+# action.yml
+name: 'Pterodactyl upload action'
+description: 'Upload to pterodactyl panel'
+inputs:
+  panel:  # id of input
+    description: 'pterodactyl panel url'
+    required: true
+  api_key:  # id of input
+    description: 'pterodactyl api key'
+    required: true
+  server:  # id of input
+    description: 'pterodactyl server uuid'
+    required: true
+  path:  # id of input
+    description: 'A file or a directory that describes what to upload'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.panel }}
+    - ${{ inputs.api_key }}
+    - ${{ inputs.server }}
+    - ${{ inputs.path }}
