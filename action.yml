@@ -14,6 +14,9 @@ inputs:
   path:  # id of input
     description: 'A file or a directory that describes what to upload'
     required: true
+  directory:
+    description: 'A directory that describes where to upload'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -22,3 +25,4 @@ runs:
     - ${{ inputs.api_key }}
     - ${{ inputs.server }}
     - ${{ inputs.path }}
+    - ${{ inputs.directory }}

@@ -16,12 +16,14 @@ var panel string
 var apiKey string
 var server string
 var upload string
+var dir string
 
 func init() {
 	panel = os.Args[1]
 	apiKey = os.Args[2]
 	server = os.Args[3]
 	upload = os.Args[4]
+	dir = os.Args[5]
 }
 
 func main() {
@@ -30,7 +32,11 @@ func main() {
 		log.Fatalf("Error in signed url: %s", err)
 	}
 
-	req, err := newUploadRequest(url, upload)
+	target := url
+	if dir != "" {
+		target += "&directory=" + dir
+	}
+	req, err := newUploadRequest(target, upload)
 	if err != nil {
 		log.Fatalf("Error in upload request: %s", err)
 	}
