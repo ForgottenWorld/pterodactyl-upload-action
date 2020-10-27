@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"io/ioutil"
 	"log"
@@ -41,9 +42,12 @@ func main() {
 		log.Fatalf("Error in upload request: %s", err)
 	}
 
-	resp, err := http.DefaultClient.Do(req); 
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Fatalf("Error in main: %s", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Non 200 status code: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
 }
@@ -61,6 +65,9 @@ func getSignedUrl() (string, error) {
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return "", errors.New("Non 200 status code: " + resp.Status)
 	}
 	defer resp.Body.Close()
 
